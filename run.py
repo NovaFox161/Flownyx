@@ -1,5 +1,6 @@
 import discord
 
+from bin.cmds import CommandHandler
 from bin.file import FileReader
 
 client = discord.Client()
@@ -7,16 +8,14 @@ client = discord.Client()
 
 @client.event
 async def on_ready():
-	print("Logged in as:")
+	print("Successfully logged in!")
 	print(client.user.name)
-	print(client.user.id)
 
 
 @client.event
 async def on_message(message):
 	print("Received message: " + message.content)
-	if message.content == "~test":
-		await client.send_message(message.channel, "Hello World!")
+	CommandHandler.handle_command(message, client)
 
 
 client.run(FileReader.get_bot_settings()[0])
